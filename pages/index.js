@@ -1,3 +1,13 @@
+import { Container, Row } from "react-bootstrap"
+import { MainMenu } from "../components/tasks"
+import TaskModalContextProvider from "../contexts/shared/task-modal/provider"
+
 export default function Index() {
-  return <h1>Index</h1>
+  return (
+    <TaskModalContextProvider>
+      <MainMenu />
+      <Container fluid>
+      </Container>
+    </TaskModalContextProvider>
+  )
 }
