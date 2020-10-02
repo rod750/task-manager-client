@@ -1,4 +1,4 @@
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { useContext } from "react";
 import { Col, Row } from "react-bootstrap";
 import { ApolloContext } from "../../../contexts/shared/apollo/context";
@@ -16,11 +16,11 @@ export function TasksList() {
 
   return (
     <Row>
-      { data?.TaskMany?.map(c =>
+      { data?.TaskMany?.map(t =>
         <Col
           sm={12}
-          key={c._id}>
-          <TaskCard card={c} />
+          key={t._id}>
+          <TaskCard task={t} />
         </Col>
       ) }
     </Row>

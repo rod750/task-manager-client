@@ -1,11 +1,19 @@
 import { Card } from "react-bootstrap";
 
-export function TaskCard({ card }) {
+export function TaskCard({
+  task,
+  onEdit = () => {},
+  onDelete = () => {}
+}) {
   return (
     <Card>
       <Card.Body>
-        <Card.Title>{ card.name }</Card.Title>
-        <Card.Text>{ card.description }</Card.Text>
+        <Card.Title>{ task.name }</Card.Title>
+        <Card.Text>{ task.description }</Card.Text>
+      </Card.Body>
+      <Card.Body>
+        <Card.Link onClick={onEdit}>Editar</Card.Link>
+        <Card.Link onClick={onDelete}>Eliminar</Card.Link>
       </Card.Body>
     </Card>
   )
