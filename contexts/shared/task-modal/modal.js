@@ -10,12 +10,19 @@ import { IntervalInput } from "../../../components/shared"
 export function TaskModal({
   onCancel = () => {},
   onSave = () => {},
-  visible
+  visible,
+  edit
 }) {
   const { register, handleSubmit, control } = useForm()
   const { client } = useContext(ApolloContext)
 
-  const [createTask] = useMutation(tasks.mutations.createTask, { client })
+  const [createTask] = useMutation(tasks.mutations.createTask, {
+    refetchQueries: [{
+      query: tasks.queries.getTasks
+    }],
+    awaitRefetchQueries: true,
+    client
+  })
 
   const onSubmit = async data => {
     try {

@@ -2,7 +2,7 @@ import { gql } from "@apollo/client";
 
 export const getTasks = gql`
   query GetTasks {
-    TaskMany {
+    TaskMany(sort: _ID_DESC) {
       _id
       name
       description

@@ -3,20 +3,21 @@ import { TaskModalContext } from "./context";
 import { TaskModal } from "./modal";
 
 export default function TaskModalContextProvider({ children }) {
-  const [state, setState] = useState({ isModalVisible: false })
+  const [state, setState] = useState({ isModalVisible: false, edit: undefined })
 
-  const openModal = () => {
-    setState({ isModalVisible: true })
+  const openModal = (edit) => {
+    setState({ isModalVisible: true, edit })
   }
 
   const closeModal = () => {
-    setState({ isModalVisible: false })
+    setState({ isModalVisible: false, edit: undefined })
   }
 
   return (
     <TaskModalContext.Provider value={{ openModal, closeModal }}>
       <TaskModal
         onCancel={closeModal}
+        onSave={closeModal}
         visible={state.isModalVisible} />
       { children }
     </TaskModalContext.Provider>
