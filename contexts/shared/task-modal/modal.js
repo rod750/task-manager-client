@@ -1,20 +1,23 @@
 import { useMutation } from "@apollo/client"
-import { useContext, useState } from "react"
+import { useContext } from "react"
 import { Modal, Button, Form } from "react-bootstrap"
-import { useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
 import { tasks } from "../../../graphql/tasks"
 import { ApolloContext } from "../apollo/context"
 import ms from "ms"
+import { IntervalInput } from "../../../components/shared"
 
-export function TaskModal({ onCancel = () => {}, onSave = () => {}, visible }) {
-  const { register, handleSubmit } = useForm()
+export function TaskModal({
+  onCancel = () => {},
+  onSave = () => {},
+  visible
+}) {
+  const { register, handleSubmit, control } = useForm()
   const { client } = useContext(ApolloContext)
 
   const [createTask] = useMutation(tasks.mutations.createTask, { client })
 
   const onSubmit = async data => {
-    data.duration = ms(data.duration)
-
     try {
       const response = await createTask({
         variables: { record: data }
@@ -55,10 +58,10 @@ export function TaskModal({ onCancel = () => {}, onSave = () => {}, visible }) {
           </Form.Group>
           <Form.Group>
             <Form.Label>Duration</Form.Label>
-            <Form.Control
+            <Controller
               name="duration"
-              type="text"
-              ref={register} />
+              control={control}
+              as={IntervalInput} />
           </Form.Group>
         </Form>
       </Modal.Body>
