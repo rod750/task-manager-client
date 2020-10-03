@@ -18,7 +18,8 @@ export default function TaskModalContextProvider({ children }) {
       <TaskModal
         onCancel={closeModal}
         onSave={closeModal}
-        visible={state.isModalVisible} />
+        visible={state.isModalVisible}
+        edit={state.edit} />
       { children }
     </TaskModalContext.Provider>
   )

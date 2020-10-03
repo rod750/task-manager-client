@@ -4,7 +4,6 @@ import { Modal, Button, Form } from "react-bootstrap"
 import { Controller, useForm } from "react-hook-form"
 import { tasks } from "../../../graphql/tasks"
 import { ApolloContext } from "../apollo/context"
-import ms from "ms"
 import { IntervalInput } from "../../../components/shared"
 
 export function TaskModal({
@@ -24,9 +23,25 @@ export function TaskModal({
     client
   })
 
+  const [updateTask] = useMutation(tasks.mutations.updateTask, {
+    refetchQueries: [{
+      query: tasks.queries.getTasks
+    }],
+    awaitRefetchQueries: true,
+    client
+  })
+
   const onSubmit = async data => {
     try {
-      const response = await createTask({
+      if(edit) {
+        data = { _id: edit._id, ...data }
+      }
+
+      const mutation = edit?._id ? updateTask : createTask;
+
+      debugger
+
+      const response = await mutation({
         variables: { record: data }
       })
   
@@ -36,7 +51,6 @@ export function TaskModal({
       console.error(e)
       alert("An error has ocurred, please try again.")
     }
-    
   }
 
   return (
@@ -44,7 +58,7 @@ export function TaskModal({
       show={visible}
       onHide={onCancel}>
       <Modal.Header closeButton>
-        <Modal.Title>Create new task</Modal.Title>
+        <Modal.Title>{ edit ? "Edit task" : "Create new task" }</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>
@@ -53,6 +67,7 @@ export function TaskModal({
             <Form.Control
               name="name"
               type="text"
+              defaultValue={edit?.name}
               ref={register} />
           </Form.Group>
           <Form.Group>
@@ -60,6 +75,7 @@ export function TaskModal({
             <Form.Control
               name="description"
               as="textarea"
+              defaultValue={edit?.description}
               ref={register}
               rows={5} />
           </Form.Group>
@@ -68,7 +84,8 @@ export function TaskModal({
             <Controller
               name="duration"
               control={control}
-              as={IntervalInput} />
+              as={IntervalInput}
+              defaultValue={edit?.duration} />
           </Form.Group>
         </Form>
       </Modal.Body>
