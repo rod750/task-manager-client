@@ -11,7 +11,7 @@ export function MainMenu({actions}) {
       <Nav className="mr-auto"></Nav>
       <Form inline>
         <Button
-          onClick={openModal}
+          onClick={() => openModal()}
           variant="primary">
           New task
         </Button>
