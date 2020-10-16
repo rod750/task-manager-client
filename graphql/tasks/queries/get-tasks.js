@@ -8,7 +8,8 @@ export const getTasks = gql`
       description
       duration
       order
-      pausedAt
+      status
+      lastStartAt
       finishedAt
       elapsedTime
       updatedAt
