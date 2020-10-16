@@ -17,25 +17,26 @@ export function TaskCard({
         <Card.Text>{ task.description }</Card.Text>
       </Card.Body>
       <Card.Body>
-        <Card.Link><Timer /></Card.Link>
+        <Card.Link><Timer task={task} /></Card.Link>
         <Card.Link>
           <Button
             onClick={onSuccess}
+            disabled={task.status === "completed"}
             variant="success">
-            <RiCheckFill /> Completar
+            <RiCheckFill /> {task.status === "completed" ? "Completed" : "Mark as complete"}
           </Button>
         </Card.Link>
         <Card.Link>
           <Button
             onClick={onEdit}>
-            <RiPencilFill /> Editar
+            <RiPencilFill /> Edit
           </Button>
         </Card.Link>
         <Card.Link>
           <Button
             onClick={onDelete}
             variant="danger">
-            <RiDeleteBinFill /> Eliminar
+            <RiDeleteBinFill /> Delete
           </Button>
         </Card.Link>
       </Card.Body>
